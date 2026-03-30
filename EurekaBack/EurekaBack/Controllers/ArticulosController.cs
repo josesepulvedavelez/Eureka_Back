@@ -1,8 +1,8 @@
-﻿using EurekaBack.Data;
-using EurekaBack.Models;
-using Microsoft.AspNetCore.Http;
+using EurekaBack.Application.DTOs;
+using EurekaBack.Application.Features.Articulos.Commands;
+using EurekaBack.Application.Features.Articulos.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace EurekaBack.Controllers
 {
@@ -10,88 +10,62 @@ namespace EurekaBack.Controllers
     [ApiController]
     public class ArticulosController : ControllerBase
     {
-        EurekaContext _eurekaContext;
+        private readonly IMediator _mediator;
 
-        public ArticulosController(EurekaContext eurekaContext)
-        { 
-            _eurekaContext = eurekaContext;
+        public ArticulosController(IMediator mediator)
+        {
+            _mediator = mediator;
         }
 
         [HttpPost("AddArticulo")]
-        public async Task<ActionResult> AddArticulo([FromBody] Articulo articulo)
+        public async Task<ActionResult> AddArticulo([FromBody] ArticuloDto articulo)
         {
-            try
-            {
-                var art = await _eurekaContext.Articulo.AddAsync(articulo);
-                await _eurekaContext.SaveChangesAsync();
+            var command = new CreateArticuloCommand(
+                articulo.Codigo,
+                articulo.Descripcion,
+                articulo.Costo,
+                articulo.Porcentaje,
+                articulo.PrecioSugerido,
+                articulo.Cantidad,
+                articulo.Estado
+            );
 
-                var id = art.Entity.ArticuloId;
-
-                return Ok(id);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error interno: {ex.Message}");
-            }
+            var id = await _mediator.Send(command);
+            return Ok(id);
         }
 
         [HttpGet("GetArticulos")]
         public async Task<ActionResult> GetArticulos()
         {
-            try
-            {
-                var articulos = await _eurekaContext.Articulo.ToListAsync();
-                return Ok(articulos);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error interno: {ex.Message}");
-            }
+            var query = new GetArticulosQuery();
+            var articulos = await _mediator.Send(query);
+            return Ok(articulos);
         }
 
         [HttpGet("GetArticulo/{articuloId}")]
         public async Task<ActionResult> GetArticulo(int articuloId)
         {
-            try
-            {
-                var clientes = await _eurekaContext.Articulo.FindAsync(articuloId);
-                return Ok(clientes);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error interno: {ex.Message}");
-            }
+            var query = new GetArticuloByIdQuery(articuloId);
+            var articulo = await _mediator.Send(query);
+            return Ok(articulo);
         }
 
         [HttpPut("UpdateArticulo/{articuloId}")]
-        public async Task<ActionResult> UpdateArticulo(int articuloId, [FromBody] Articulo articulo)
+        public async Task<ActionResult> UpdateArticulo(int articuloId, [FromBody] ArticuloDto articulo)
         {
-            try
-            {
-                var existingArticulo = await _eurekaContext.Articulo.FindAsync(articuloId);
+            var command = new UpdateArticuloCommand(
+                articuloId,
+                articulo.Codigo,
+                articulo.Descripcion,
+                articulo.Costo,
+                articulo.Porcentaje,
+                articulo.PrecioSugerido,
+                articulo.Cantidad,
+                articulo.Estado
+            );
 
-                if (existingArticulo == null)
-                {
-                    return NotFound(articuloId);
-                }
-
-                existingArticulo.Codigo = articulo.Codigo;
-                existingArticulo.Descripcion = articulo.Descripcion;                
-                existingArticulo.Costo = articulo.Costo;               
-                existingArticulo.Porcentaje = articulo.Porcentaje;
-                existingArticulo.PrecioSugerido = articulo.PrecioSugerido;
-				existingArticulo.Cantidad = articulo.Cantidad;
-				existingArticulo.Estado = articulo.Estado;
-
-                await _eurekaContext.SaveChangesAsync();
-
-                return Ok(articuloId);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error interno al actualizar el cliente: {ex.Message}");
-            }
+            var result = await _mediator.Send(command);
+            return result ? Ok(articuloId) : NotFound(articuloId);
         }
-
     }
 }

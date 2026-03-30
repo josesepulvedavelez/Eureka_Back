@@ -1,8 +1,8 @@
-﻿using EurekaBack.Data;
-using EurekaBack.Models;
-using Microsoft.AspNetCore.Http;
+using EurekaBack.Application.DTOs;
+using EurekaBack.Application.Features.Clientes.Commands;
+using EurekaBack.Application.Features.Clientes.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace EurekaBack.Controllers
 {
@@ -10,87 +10,58 @@ namespace EurekaBack.Controllers
     [ApiController]
     public class ClientesController : ControllerBase
     {
-        EurekaContext _eurekaContext;
+        private readonly IMediator _mediator;
 
-        public ClientesController(EurekaContext eurekaContext) 
+        public ClientesController(IMediator mediator)
         {
-            _eurekaContext = eurekaContext;
+            _mediator = mediator;
         }
 
         [HttpPost("AddCliente")]
-        public async Task<ActionResult> AddCliente([FromBody] Cliente cliente)
+        public async Task<ActionResult> AddCliente([FromBody] ClienteDto cliente)
         {
-            try
-            {
-                var cli = await _eurekaContext.Cliente.AddAsync(cliente);
-                await _eurekaContext.SaveChangesAsync();
+            var command = new CreateClienteCommand(
+                cliente.Cc_Nit,
+                cliente.Nombre_RazonSocial,
+                cliente.Direccion,
+                cliente.Telefono,
+                cliente.Estado
+            );
 
-                var id = cli.Entity.ClienteId;
-
-                return Ok(id);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error interno: {ex.Message}");
-            }
+            var id = await _mediator.Send(command);
+            return Ok(id);
         }
 
         [HttpGet("GetClientes")]
         public async Task<ActionResult> GetClientes()
         {
-            try
-            {
-                var clientes = await _eurekaContext.Cliente.ToListAsync();
-                return Ok(clientes);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error interno: {ex.Message}");
-            }            
+            var query = new GetClientesQuery();
+            var clientes = await _mediator.Send(query);
+            return Ok(clientes);
         }
 
         [HttpGet("GetCliente/{clienteId}")]
         public async Task<ActionResult> GetCliente(int clienteId)
         {
-            try
-            {
-                var clientes = await _eurekaContext.Cliente.FindAsync(clienteId);
-                return Ok(clientes);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error interno: {ex.Message}");
-            }
+            var query = new GetClienteByIdQuery(clienteId);
+            var cliente = await _mediator.Send(query);
+            return Ok(cliente);
         }
 
         [HttpPut("UpdateCliente/{clienteId}")]
-        public async Task<ActionResult> UpdateCliente(int clienteId, [FromBody] Cliente cliente)
+        public async Task<ActionResult> UpdateCliente(int clienteId, [FromBody] ClienteDto cliente)
         {
-            try
-            {
-                var existingCliente = await _eurekaContext.Cliente.FindAsync(clienteId);
+            var command = new UpdateClienteCommand(
+                clienteId,
+                cliente.Cc_Nit,
+                cliente.Nombre_RazonSocial,
+                cliente.Direccion,
+                cliente.Telefono,
+                cliente.Estado
+            );
 
-                if (existingCliente == null)
-                {
-                    return NotFound(clienteId);
-                }
-
-                existingCliente.Cc_Nit = cliente.Direccion;
-                existingCliente.Nombre_RazonSocial = cliente.Nombre_RazonSocial;
-                existingCliente.Direccion = cliente.Direccion;
-                existingCliente.Telefono = cliente.Telefono;
-                existingCliente.Estado = cliente.Estado;
-                                
-                await _eurekaContext.SaveChangesAsync();
-
-                return Ok(clienteId);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error interno al actualizar el cliente: {ex.Message}");
-            }
+            var result = await _mediator.Send(command);
+            return result ? Ok(clienteId) : NotFound(clienteId);
         }
-
-
     }
 }

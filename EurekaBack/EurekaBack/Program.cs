@@ -1,15 +1,18 @@
-using EurekaBack.Data;
-using Microsoft.EntityFrameworkCore;
+using EurekaBack.Infrastructure;
+using EurekaBack.Middleware;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Configuration.AddJsonFile("appsettings.json");
+var configuration = builder.Configuration;
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configuración CORS
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
@@ -20,23 +23,26 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Configuration.AddJsonFile("appsettings.json");
-var configuration = builder.Configuration;
+var connectionString = configuration.GetConnectionString("cadena") ?? throw new InvalidOperationException("Connection string 'cadena' not found.");
+builder.Services.AddInfrastructure(connectionString);
 
-builder.Services.AddDbContext<EurekaContext>(options => options.UseSqlServer(configuration.GetConnectionString("cadena")));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(EurekaBack.Application.Features.Articulos.Commands.CreateArticuloCommand).Assembly));
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssembly(typeof(EurekaBack.Application.Features.Articulos.Commands.CreateArticuloCommand).Assembly);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
 app.UseHttpsRedirection();
 
-// Habilitar CORS
 app.UseCors();
 
 app.UseAuthorization();
@@ -44,4 +50,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
