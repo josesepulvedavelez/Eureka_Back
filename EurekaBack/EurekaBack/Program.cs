@@ -1,5 +1,5 @@
 using EurekaBack.Infrastructure;
-using EurekaBack.Middleware;
+using EurekaBack.Api.Middleware;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;

@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultItems>false</EnableDefaultItems>
+    <RootNamespace>EurekaBack.Api</RootNamespace>
+    <AssemblyName>EurekaBack.Api</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

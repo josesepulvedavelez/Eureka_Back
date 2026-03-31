@@ -4,7 +4,7 @@ using EurekaBack.Application.Features.Articulos.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EurekaBack.Controllers
+namespace EurekaBack.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

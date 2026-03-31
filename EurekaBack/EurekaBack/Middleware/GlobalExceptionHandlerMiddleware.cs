@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text.Json;
 
-namespace EurekaBack.Middleware
+namespace EurekaBack.Api.Middleware
 {
     public class GlobalExceptionHandlerMiddleware
     {
