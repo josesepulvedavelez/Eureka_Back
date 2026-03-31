@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Api", "EurekaBack\EurekaBack.Api.csproj", "{82C87484-69F2-AC3D-A70C-ED044EF70A60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Api", "EurekaBack.Api\EurekaBack.Api.csproj", "{82C87484-69F2-AC3D-A70C-ED044EF70A60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Infrastructure", "EurekaBack\EurekaBack.Infrastructure\EurekaBack.Infrastructure.csproj", "{7BB1DA3F-F2A7-4964-9B5B-6DBDECB99D5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Infrastructure", "EurekaBack.Infrastructure\EurekaBack.Infrastructure.csproj", "{7BB1DA3F-F2A7-4964-9B5B-6DBDECB99D5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Domain", "EurekaBack\EurekaBack.Domain\EurekaBack.Domain.csproj", "{5D099802-4429-43B4-8D72-05427E21D201}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Domain", "EurekaBack.Domain\EurekaBack.Domain.csproj", "{5D099802-4429-43B4-8D72-05427E21D201}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Application", "EurekaBack\EurekaBack.Application\EurekaBack.Application.csproj", "{2AEF6509-199F-A157-2429-33984016CBC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Application", "EurekaBack.Application\EurekaBack.Application.csproj", "{2AEF6509-199F-A157-2429-33984016CBC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

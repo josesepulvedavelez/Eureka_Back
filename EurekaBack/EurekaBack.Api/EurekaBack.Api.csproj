@@ -31,9 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="EurekaBack.Domain\EurekaBack.Domain.csproj" />
-    <ProjectReference Include="EurekaBack.Application\EurekaBack.Application.csproj" />
-    <ProjectReference Include="EurekaBack.Infrastructure\EurekaBack.Infrastructure.csproj" />
+    <ProjectReference Include="..\EurekaBack.Domain\EurekaBack.Domain.csproj" />
+    <ProjectReference Include="..\EurekaBack.Application\EurekaBack.Application.csproj" />
+    <ProjectReference Include="..\EurekaBack.Infrastructure\EurekaBack.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
