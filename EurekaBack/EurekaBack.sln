@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Domain", "EurekaBack\EurekaBack.Domain\EurekaBack.Domain.csproj", "{5D099802-4429-43B4-8D72-05427E21D201}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EurekaBack.Application", "EurekaBack\EurekaBack.Application\EurekaBack.Application.csproj", "{2AEF6509-199F-A157-2429-33984016CBC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{5D099802-4429-43B4-8D72-05427E21D201}.Release|x64.Build.0 = Release|Any CPU
 		{5D099802-4429-43B4-8D72-05427E21D201}.Release|x86.ActiveCfg = Release|Any CPU
 		{5D099802-4429-43B4-8D72-05427E21D201}.Release|x86.Build.0 = Release|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Debug|x64.Build.0 = Debug|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Debug|x86.Build.0 = Debug|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Release|x64.ActiveCfg = Release|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Release|x64.Build.0 = Release|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Release|x86.ActiveCfg = Release|Any CPU
+		{2AEF6509-199F-A157-2429-33984016CBC3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
